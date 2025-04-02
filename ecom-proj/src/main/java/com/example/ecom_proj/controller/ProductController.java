@@ -5,13 +5,15 @@ import com.example.ecom_proj.model.Product;
 import com.example.ecom_proj.repo.ProductRepo;
 import com.example.ecom_proj.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api")
 public class ProductController {
 
@@ -24,9 +26,26 @@ public class ProductController {
     private ProductService service;
 
 
-    @GetMapping("/products")
-    public List<ProductRepo> getAllProducts(){
+    @GetMapping("/product")
+    public List<Product> getAllProducts(){
         return service.getAllProducts();
 
     }
+
+    @PostMapping("/product")
+    public ResponseEntity<?> addProduct( @RequestPart Product product,
+                                            @RequestPart MultipartFile imageFile  ){
+        System.out.println(product);
+        try {
+            Product product1= service.addProduct(product, imageFile);
+            return new  ResponseEntity<>(product1,HttpStatus.OK );
+
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
+
 }

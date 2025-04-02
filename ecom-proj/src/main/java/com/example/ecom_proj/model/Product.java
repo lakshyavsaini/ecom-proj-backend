@@ -1,7 +1,6 @@
 package com.example.ecom_proj.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jdk.jfr.DataAmount;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,6 +18,7 @@ import java.util.List;
 public class Product {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private String desc;
@@ -28,4 +28,10 @@ public class Product {
     private Date date;
     private boolean available;
     private int quantity;
+
+    private String imageName;
+    private String imageUrl;
+    @Lob
+    private byte[] imageDate;
+
  }
